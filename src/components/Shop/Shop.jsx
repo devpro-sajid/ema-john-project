@@ -1,11 +1,14 @@
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
-import { getShoppingCart } from '../../utilities/faked';
+import { deleteShoppingCart, getShoppingCart } from '../../utilities/faked';
 import { addToDb } from '../../utilities/faked';
 
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import './Shop.css';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -45,6 +48,10 @@ newCart=[...cart,product];
         setCart(newCart);
         addToDb(product.id);
     }
+    const handleClearCart=()=>{
+        setCart([]);
+        deleteShoppingCart();
+    }
     return (
         <div className='shop-container'>
             <div className="products-container">
@@ -59,7 +66,7 @@ newCart=[...cart,product];
             <div className="cart-container">
                 {/* <h4>Order Summary</h4>
                 <p>Selected Items: {cart.length}</p> */}
-                <Cart cart={cart}></Cart>
+                <Cart handleClearCart={handleClearCart} cart={cart}><Link className='proceed-link' to='/order'><button className='btn-proceed'>Orders Review <FontAwesomeIcon icon={faArrowRight} /></button></Link></Cart>
             </div>
         </div>
     );
